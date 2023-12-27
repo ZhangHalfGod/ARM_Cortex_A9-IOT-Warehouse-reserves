@@ -1,0 +1,36 @@
+#include "all.h"
+//控制中心线程
+void *pthread_ctl(void *p)
+{
+	if(NULL == p){
+		printf("%s : 创建此线程时忘记传参\n", __func__);
+		pthread_exit(0);
+	}
+	int fd = *((int *)p);  //获得传参值
+	unsigned char cmd;  // 控制命令
+	while(1){
+		//A.接收一个命令
+		if( recv(fd, &cmd, sizeof(cmd), 0) <= 0)
+			break;
+		//B.执行命令-控制设备
+		all_ctl(cmd);
+	}
+}
+//自定义函数:控制设备开关
+void all_ctl(unsigned char cmd)
+{
+	switch(cmd){
+	case FANOFF:  printf("风扇已关闭\n");		break;
+	case FANON1:  printf("风扇已打开-1档\n");	break;
+	case FANON2:  printf("风扇已打开-2档\n");	break;
+	case FANON3:  printf("风扇已打开-3档\n");	break;
+	case BEEPOFF:  printf("蜂鸣器已关闭\n");	break;
+	case BEEPON:   printf("蜂鸣器已打开\n");	break;
+	case LEDOFF:  printf("灯已关闭\n");	break;
+	case LEDON:   printf("灯已打开\n");	break;
+	case SEGOFF:  printf("数码管已关闭\n");	break;
+	default: if(cmd >= SEGON && cmd < SEGOFF){
+				 printf("数码管已打开-%d\n", cmd-SEGON);
+			 }break;
+	}
+}

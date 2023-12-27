@@ -1,0 +1,66 @@
+#include "all.h"
+//采集中心线程
+void *pthread_info(void *p)
+{
+	if(NULL==p){
+		printf("%s : 创建此线程时忘记传递参数啦\n", __func__);
+		pthread_exit(0);
+	}
+	int fd = *((int*)p);   // 获得参数-套接字 
+	srand(  time(0)  );	//随机的种子 
+	while(1)
+	{	//A. 采集环境信息
+		envinfo_t env = getEnv(); 
+		//B. 上传数据 
+		if( send(fd, &env, sizeof(env), 0) <= 0) break;
+		printf("%s : env %d %d.%d %d.%d %d %d %d %d %d %d\n",
+				__func__ , env.devno, env.temp[0], env.temp[1],
+				env.hum[0], env.hum[1], env.x, env.y, env.z,
+				env.light, env.electricity, env.voltage);
+		sleep(2); 
+		//C. 采集货物信息
+		//goods_t g = getGoods();
+		//D. 上传数据  
+		/*
+		if( send(fd, &g, sizeof(g), 0)  <= 0 ) break;
+		printf("%s : goods %c %d %c %s %d\n\n", __func__,
+				g.type, g.devno, g.inout, g.name, g.num);
+		sleep(2);
+		*/
+	}
+	pthread_exit(0);
+}
+//自定义函数：采集货物信息 
+/*
+goods_t getGoods(void)
+{
+	int i;  //货物名下标 
+	char names[6][17] = {"苹果","大樱桃","小樱桃","丑橘","草莓","香瓜"};
+	goods_t g; 
+	g.type = 'g';   //货物类型 
+	g.devno = DEVNO;  //仓库号 
+	g.inout = (rand()%2)?'I':'O';  //入库/出库 
+	i = rand()%6;  //随机的下标值
+	strcpy( g.name , names[i]);   //随机的货物名字
+	g.num = rand()%1000+1;    //随机货物数量
+
+	return g;
+}*/
+
+//自定义函数：采集环境信息 
+envinfo_t getEnv(void)
+{
+	envinfo_t a;
+	a.devno = DEVNO;
+	a.temp[0] = rand()%50 ;   //温度整数 0-49 
+	a.temp[1] = rand()%10 ;   //温度小数 0-9
+	a.hum[0] = rand()%50; 
+	a.hum[1] = rand()%10;
+	a.x = rand()%256 - 128;  //三轴加速度 -128 -  +127
+	a.y = rand()%256 - 128;
+	a.z = rand()%256 - 128;  
+	a.light = rand()%1000;  
+	a.electricity = rand()%1000;
+	a.voltage = rand()%6;
+	return a;
+}

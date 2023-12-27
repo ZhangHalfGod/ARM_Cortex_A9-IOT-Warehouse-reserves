@@ -1,0 +1,2 @@
+
+App : main.c link.c ctlA9.c pthread_transfer.c pthread_analysis.c pthread_sqlite.c pthread_refresh.c  pthread_sms.c pthread_client_request.c  pthread_uart_cmd.c  -lpthread -o App
