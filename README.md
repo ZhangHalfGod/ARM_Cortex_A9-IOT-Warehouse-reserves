@@ -18,4 +18,52 @@
 ## 物联网仓储系统*远程控制功能*实现如下：
 <img src="https://github.com/ZhangHalfGod/Picture/blob/main/%E5%9B%BE%E7%89%87%204.png">  
 
->通过M0版远程控制ARM开发板LED、Beep、Fan等设备的开关
+>通过M0版远程控制ARM开发板Led、Beep、Fan等设备的开关
+
+
+## 开灯
+<img src="https://github.com/ZhangHalfGod/Picture/blob/main/%E5%9B%BE%E7%89%87%205.png">  
+
+>通过Led on按钮开启灯光
+
+## 关灯
+<img src="https://github.com/ZhangHalfGod/Picture/blob/main/%E5%9B%BE%E7%89%87%206.png">  
+
+>通过Led off按钮关闭灯光
+
+
+# 各模块功能实现  
+## Sen和App发送接收测试实现代码：  
+### 信息采集端代码pthread_info.c:
+<img src="https://github.com/ZhangHalfGod/Picture/blob/main/%E5%9B%BE%E7%89%87%207.png">  
+
+### 控制端代码pthread_ctl.c:
+<img src="https://github.com/ZhangHalfGod/Picture/blob/main/%E5%9B%BE%E7%89%87%208.png">  
+
+## Sen和App发送接收实现效果图：
+<img src="https://github.com/ZhangHalfGod/Picture/blob/main/%E5%9B%BE%E7%89%87%209.png"> 
+
+
+# 交叉编译功能实现  
+
+>1.将gcc-4.6.4.tar.xz复制到/home/linux/，并解压成gcc-4.6.4文件
+
+>2.pwd命令显示路径 /home/linux/yizhi/gcc-4.6.4/bin，通过命令sudo vim /etc/environment 追加：:/home/linux/yizhi/gcc-4.6.4/bin"
+
+>3.激活：source /etc/environment arm-none-linux-gnueabi-gcc -v查看gcc版本
+
+<img src="https://github.com/ZhangHalfGod/Picture/blob/main/%E5%9B%BE%E7%89%87%210.png"> 
+
+
+
+>4.编辑Makefile:更新：CC=arm-none-linux-gnueabi-gcc
+
+<img src="https://github.com/ZhangHalfGod/Picture/blob/main/%E5%9B%BE%E7%89%87%2.png"> 
+
+
+
+
+
+
+
+
