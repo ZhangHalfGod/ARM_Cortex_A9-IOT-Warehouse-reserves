@@ -44,7 +44,7 @@
 <img src="https://github.com/ZhangHalfGod/Picture/blob/main/%E5%9B%BE%E7%89%87%209.png"> 
 
 
-# 交叉编译功能实现  
+## 交叉编译功能实现  
 
 >1.将gcc-4.6.4.tar.xz复制到/home/linux/，并解压成gcc-4.6.4文件
 
@@ -58,7 +58,71 @@
 
 >4.编辑Makefile:更新：CC=arm-none-linux-gnueabi-gcc
 
-<img src="https://github.com/ZhangHalfGod/Picture/blob/main/%E5%9B%BE%E7%89%87%2.png"> 
+<img src="https://github.com/ZhangHalfGod/Picture/blob/main/%E5%9B%BE%E7%89%87%211.png">   
+
+## 编写LED驱动
+
+>LED_ON
+
+<img src="https://github.com/ZhangHalfGod/Picture/blob/main/%E5%9B%BE%E7%89%87%212.png">   
+
+>LED_OFF
+
+<img src="https://github.com/ZhangHalfGod/Picture/blob/main/%E5%9B%BE%E7%89%87%213.png">  
+
+## 交叉编译并下载  
+
+>编译LED_ON
+
+<img src="https://github.com/ZhangHalfGod/Picture/blob/main/%E5%9B%BE%E7%89%87%214.png">  
+
+
+>编译LED_OFF
+
+<img src="https://github.com/ZhangHalfGod/Picture/blob/main/%E5%9B%BE%E7%89%87%215.png">  
+
+>1.启动a9， 配置网络：ifconfig eth0 192.168.20.5
+
+
+>2.下载：tftp -g -r Sen-20.4-v2 192.168.20.3
+ 下载：tftp -g -r ledon 192.168.20.3
+ 下载：tftp -g -r ledoff 192.168.20.3
+ 下载：tftp -g -r hello.ko 192.168.20.3
+
+>3.a9:  chmod 777 Sen-20.4-v2 
+       chmod 777 ledon  
+       chmod 777 ledoff  
+       chmod 777 hello.ko
+
+>4. a9:
+       insmod hello.ko  
+       rm /dev/led 
+       rmmod fs4412_led
+       mknod /dev/led c  254 0
+
+
+## A9开发板、Linux网络配置：
+
+>1.将VM虚拟机网络设置为桥接模式，然后在pc端启动两个vm网卡并在其属性中勾选VMware Bridge Protocol选项，最后将pc机以太网设置为静态IP：192.168.20.3
+
+<img src="https://github.com/ZhangHalfGod/Picture/blob/main/%E5%9B%BE%E7%89%87%216.png">
+<img src="https://github.com/ZhangHalfGod/Picture/blob/main/%E5%9B%BE%E7%89%87%217.png">
+
+>2.设置Linux网卡IP 执行：sudo ifconfig eth0 192.168.20.4（该命令用于固定IP）
+
+>3.设置A9的网卡IP：执行：sudo ifconfig eth0 192.168.20.5
+
+>4.A9开发板端、Linux端和PC机互ping，查看网络是否畅通
+
+<img src="https://github.com/ZhangHalfGod/Picture/blob/main/%E5%9B%BE%E7%89%87%218.png">
+<img src="https://github.com/ZhangHalfGod/Picture/blob/main/%E5%9B%BE%E7%89%87%219.png">
+
+
+
+
+
+
+
 
 
 
